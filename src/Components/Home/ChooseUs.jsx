@@ -1,5 +1,5 @@
 import React from "react";
-import "./Rest.css";
+import "../Rest.css";
 
 function ChooseUs() {
   return (
