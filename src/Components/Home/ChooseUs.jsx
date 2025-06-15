@@ -3,8 +3,8 @@ import "../Rest.css";
 
 function ChooseUs() {
   return (
-    <div className="bg-gray-800 pt-20 max-w-full pb-20 ">
-      <h2 className="text-white text-4xl text-center font-bold mb-10">
+    <div className="pt-20 max-w-full pb-20 ">
+      <h2 className="text-4xl text-center font-bold mb-10">
         Why Choose Us?
       </h2>
       <div className="max-w-full flex flex-wrap justify-center pl-4 pr-4 ">

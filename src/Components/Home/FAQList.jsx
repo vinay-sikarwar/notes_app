@@ -30,7 +30,9 @@ function FAQList() {
   ]
   return (
     <div className="p-10">
-      <h2 className="text-white text-4xl text-center font-bold mb-10">FAQs</h2>
+      <h2 className="text-4xl text-center font-bold mb-10">
+        Frequently Asked Questions
+      </h2>
       {faqData.map((faq, index) => (
         <FAQItems key={index} question={faq.question} answer={faq.answer} />
       ))}

@@ -7,8 +7,8 @@ import Browse from "../assets/browse.gif";
 
 function Rest() {
   return (
-    <div className="flex-col max-w-full mt-20 pb-20 bg-gray-500 pt-10">
-      <h1 className="text-white text-4xl text-center font-bold mb-10">
+    <div className=" w-[90%] flex-col max-w-full mt-20 pb-20 bg-amber-100 pt-10 text-black mx-auto rounded-4xl">
+      <h1 className=" text-4xl text-center font-bold mb-10">
         How it works?
       </h1>
 

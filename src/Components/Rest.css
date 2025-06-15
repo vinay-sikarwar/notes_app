@@ -19,8 +19,13 @@
 .how_it_works p {
     font-size: 1.2em;
     font-weight: 500;
+    color: black;
 }
-  
+
+.how_it_works img {
+    box-shadow: 2px 2px 2px 2px gray;
+}
+
 .whyUs {
     width: 15em;
     border: 1px solid;

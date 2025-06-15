@@ -7,11 +7,16 @@ function Resources() {
   const navigate = useNavigate();
 
   const handleBranchClick = (branch) => {
-    navigate(`/sem/${encodeURIComponent(branch)}`);
+    if (branch.toLowerCase() === "1st year") {
+      navigate(`/results?branch=${encodeURIComponent(branch)}`);
+    } else {
+      navigate(`/sem/${encodeURIComponent(branch)}`);
+    }
   };
+  
 
   return (
-    <div className="min-h-screen bg-gray-100 flex flex-col items-center px-4 py-10">
+    <div className="mt-15 min-h-screen bg-gray-100 flex flex-col items-center px-4 py-10">
       <h1 className="text-3xl font-bold mb-8">Select Your Branch</h1>
       <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-6 w-full max-w-4xl">
         {BRANCHES.map((branch, index) => (

@@ -1,93 +1,161 @@
 import React, { useState } from "react";
-import Logo from "../assets/logo.jpg";
 import { NavLink } from "react-router-dom";
+import { useAuth } from "../db/AuthContext"; // ✅ import auth hook
+import { useCart } from "../contexts/CartContext"; // 👈 Add this
 
-function Navbar() {
-  const [isOpen, setIsOpen] = useState(false);
+import Logo from "../assets/logo.png";
+import Cart from "../assets/cart2.png"
+
+export default function Navbar() {
+  const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const { user, loggedIn } = useAuth(); // ✅ get user and auth state
+  const { cartItems } = useCart();
+  const cartCount = cartItems.length;
+
 
   return (
-    <header>
-      <div className="fixed top-0 left-0 w-full bg-gray-800 text-white z-50 shadow-md">
-        <div className="flex justify-between items-center px-4 py-3 md:px-8">
-          <NavLink to='/' className="flex items-center text-2xl">
-            <img src={Logo} alt="SmartNotes Logo" className="h-10 mr-3" />
-            <p>SmartNotes</p>
+    <>
+      <nav className="bg-black/90 text-white backdrop-blur-md fixed top-4 left-1/2 transform -translate-x-1/2 w-[90%] md:w-[80%] rounded-2xl shadow-lg px-4 py-2 z-50">
+        <div className="flex items-center justify-between">
+          <NavLink to="/">
+            <div className="flex items-center space-x-2">
+              <img src={Logo} alt="Logo" className="h-8 w-8 rounded" />
+              <span className="font-semibold text-lg">CollabeNote</span>
+            </div>
           </NavLink>
 
-          <nav className="hidden md:block space-x-6">
-            <NavLink to="/resources" className="hover:text-gray-300">
-              Resources
-            </NavLink>
-            <NavLink to="#" className="hover:text-gray-300">
-              Cart
-            </NavLink>
-            <NavLink to="/profile" className="hover:text-gray-300">
-              Profile
-            </NavLink>
-          </nav>
+          <div className="hidden sm:flex items-center space-x-4">
+            <div className="relative group">
+              <button className="hover:underline flex items-center gap-1">
+                Notes ▾
+              </button>
+              <div className="absolute hidden group-hover:block top-full left-0 mt-1 bg-black text-white rounded shadow-md min-w-[100px] z-50 h-25 my-auto">
+                <NavLink
+                  to="/resources"
+                  className="block px-4 py-2 hover:bg-gray-800"
+                >
+                  Buy
+                </NavLink>
+                <NavLink
+                  to="/sell"
+                  className="block px-4 py-2 hover:bg-gray-800"
+                >
+                  Sell
+                </NavLink>
+              </div>
+            </div>
 
-          <NavLink to="/login">
-            <button className="hidden md:block bg-white text-black rounded-2xl px-4 py-2 hover:bg-gray-200 transition">
-              Get Started
-            </button>
-          </NavLink>
+            <NavLink to="/cart" className="relative hover:underline">
+              <img className="h-8" src={Cart} alt="cart" />
+              {cartCount > 0 && (
+                <span className="absolute -top-1 -right-1 bg-orange-500 text-white text-xs font-semibold px-1.5 py-0.5 rounded-full shadow">
+                  {cartCount}
+                </span>
+              )}
+            </NavLink>
 
-          <div className="md:hidden">
-            <button
-              onClick={() => setIsOpen(!isOpen)}
-              className="focus:outline-none"
-            >
-              <svg
-                className="h-6 w-6"
-                fill="none"
-                stroke="currentColor"
-                viewBox="0 0 24 24"
-                xmlns="http://www.w3.org/2000/svg"
+            <button className="text-xl hover:scale-110 transition">🌙</button>
+
+            {loggedIn ? (
+              <NavLink to="/profile">
+                <img
+                  src={user?.profilePhoto || "https://placehold.co/32x32"}
+                  alt="User"
+                  className="w-8 h-8 rounded-full object-cover border-2 border-orange-500"
+                />
+              </NavLink>
+            ) : (
+              <NavLink
+                to="/login"
+                className="bg-orange-500 hover:bg-orange-600 text-white px-4 py-1.5 rounded-md font-medium"
               >
-                {isOpen ? (
-                  <path
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    strokeWidth={2}
-                    d="M6 18L18 6M6 6l12 12"
-                  />
-                ) : (
-                  <path
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    strokeWidth={2}
-                    d="M4 6h16M4 12h16M4 18h16"
-                  />
-                )}
-              </svg>
-            </button>
+                Login
+              </NavLink>
+            )}
           </div>
+
+          <button
+            className="sm:hidden text-2xl"
+            onClick={() => setIsMenuOpen(true)}
+          >
+            ☰
+          </button>
+        </div>
+      </nav>
+
+      <div
+        className={`fixed top-0 right-0 h-full w-64 bg-black text-white z-50 transform transition-transform duration-300 ${
+          isMenuOpen ? "translate-x-0" : "translate-x-full"
+        } sm:hidden flex flex-col justify-between p-6 pt-6`}
+      >
+        <div className="flex justify-end">
+          <button
+            className="text-2xl mb-4"
+            onClick={() => setIsMenuOpen(false)}
+          >
+            ✕
+          </button>
         </div>
 
-        {/* Mobile Menu */}
-        {isOpen && (
-          <div className="md:hidden px-4 pb-4 space-y-2">
-            <NavLink to="/resources" className="block hover:text-gray-300">
-              Resources
-            </NavLink>
-            <NavLink to="#" className="block hover:text-gray-300">
-              Cart
-            </NavLink>
-            <NavLink to="/profile" className="block hover:text-gray-300">
-              Profile
-            </NavLink>
-            <NavLink to='/login'>
-              <button className="w-full mt-2 bg-white text-black rounded-2xl px-4 py-2 hover:bg-gray-200 transition">
-                Get Started
-              </button>
-            </NavLink>
-          </div>
-        )}
-      </div>
+        <div className="flex-grow space-y-4">
+          <NavLink
+            to="/resources"
+            className="block text-lg hover:underline"
+            onClick={() => setIsMenuOpen(false)}
+          >
+            Notes
+          </NavLink>
+          <NavLink
+            to="/resources"
+            className="block text-lg hover:underline"
+            onClick={() => setIsMenuOpen(false)}
+          >
+            Sell
+          </NavLink>
+          <NavLink
+            to="/cart"
+            className="block text-lg hover:underline relative"
+            onClick={() => setIsMenuOpen(false)}
+          >
+            Cart
+            {cartCount > 0 && (
+              <span className="absolute -top-1 -right-4 bg-orange-500 text-white text-xs font-semibold px-1.5 py-0.5 rounded-full shadow">
+                {cartCount}
+              </span>
+            )}
+          </NavLink>
+        </div>
 
-      <div className="h-20 md:h-24" />
-    </header>
+        <div className="space-y-4">
+          <button
+            className="text-xl hover:scale-110 transition"
+            onClick={() => setIsMenuOpen(false)}
+          >
+            🌙
+          </button>
+
+          {loggedIn ? (
+            <NavLink to="/profile">
+              <div className="flex items-center space-x-2">
+                <img
+                  src={user?.profilePhoto || "https://placehold.co/32x32"}
+                  alt="User"
+                  className="w-8 h-8 rounded-full object-cover border-2 border-orange-500"
+                />
+                <span>{user.userName}</span>
+              </div>
+            </NavLink>
+          ) : (
+            <NavLink
+              to="/login"
+              className="block bg-orange-500 hover:bg-orange-600 text-white px-4 py-2 rounded-md font-medium"
+              onClick={() => setIsMenuOpen(false)}
+            >
+              Login
+            </NavLink>
+          )}
+        </div>
+      </div>
+    </>
   );
 }
-
-export default Navbar;

@@ -10,12 +10,22 @@ import Result from "./Components/Resources/Result.jsx";
 import Profile from "./Components/Profile.jsx";
 import Home from "./Components/Home.jsx";
 import Login from "./Components/Login.jsx";
+import Cart from "./Components/Cart.jsx";
+import Particles from "./Components/Particles.jsx"
+import { AuthProvider } from "./db/AuthContext.jsx";
+import { CartProvider } from "./contexts/CartContext.jsx";
+import RequestUpload from "./Components/RequestUpload.jsx";
 
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
 const router = createBrowserRouter([
   {
     path: "/",
-    element: <Home />,
+    element: (
+      <div>
+        <Particles />
+        <Home />,
+      </div>
+    ),
   },
   {
     element: <Layout />, // 👈 shared layout here
@@ -62,13 +72,35 @@ const router = createBrowserRouter([
       </div>
     ),
   },
+  {
+    path: "/cart",
+    element: (
+      <div>
+        <Navbar />
+        <Cart />
+        <Footer />
+      </div>
+    ),
+  },
+  {
+    path: "/sell",
+    element: (
+      <div>
+        <Navbar />
+        <RequestUpload />
+        <Footer />
+      </div>
+    ),
+  },
 ]);
 
 function App() {
   return (
-    <>
-      <RouterProvider router={router} />
-    </>
+    <AuthProvider>
+      <CartProvider>
+        <RouterProvider router={router} />
+      </CartProvider>
+    </AuthProvider>
   );
 }
 

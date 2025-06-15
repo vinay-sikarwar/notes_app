@@ -1,4 +1,5 @@
 export const BRANCHES = [
+  "1st Year",
   "Electrical Engineering",
   "Information Technology",
   "Computer Science",
@@ -6,8 +7,6 @@ export const BRANCHES = [
 ];
 
 export const SEMESTERS = [
-  "1st Semester",
-  "2nd Semester",
   "3rd Semester",
   "4th Semester",
   "5th Semester",
